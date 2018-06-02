@@ -1,0 +1,25 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "build",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "build",
+                "${workspaceFolder}/pixstock.apl.app.csproj"
+            ],
+            "problemMatcher": "$msCompile"
+        },
+        {
+            "label": "pixstock:apl:run",
+            "command": "dotnet",
+            "type": "process",
+            "args": [
+                "electronize",
+                "start"
+            ],
+            "problemMatcher": "$msCompile"
+        }
+    ]
+}
