@@ -15,9 +15,9 @@
     <DotNetCliToolReference Include="ElectronNET.CLI" Version="0.0.9" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\pixstock.apl.parent\hyperion.pf.workflow\Hyperion.Pf.Workflow\Hyperion.Pf.Workflow.csproj" />
-    <ProjectReference Include="..\pixstock.common.core\Pixstock.Common.Core.csproj" />
-    <ProjectReference Include="..\pixstock.common.model\Pixstock.Common.Model.csproj" />
+    <ProjectReference Include="..\Pixstock.Apl.Parent\Hyperion.Pf.Workflow\Hyperion.Pf.Workflow\Hyperion.Pf.Workflow.csproj" />
+    <ProjectReference Include="..\Pixstock.Common.Core\Pixstock.Common.Core.csproj" />
+    <ProjectReference Include="..\Pixstock.Common.Model\Pixstock.Common.Model.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="electron.manifest.json">
