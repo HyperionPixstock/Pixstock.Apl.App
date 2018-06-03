@@ -56,6 +56,14 @@ namespace pixstock.apl.app.core.Service
 
         public void InitializeExtention()
         {
+
+        }
+
+        public void Verify()
+        {
+            ILoggerFactory loggerFactory = this.Container.GetInstance<ILoggerFactory>();
+            this.mLogger = loggerFactory.CreateLogger(this.GetType().FullName);
+
             List<IContentBuilder> contentBuilders = new List<IContentBuilder>();
             contentBuilders.Add(new MyContentBuilder() { Container = this.Container });
 
@@ -65,12 +73,6 @@ namespace pixstock.apl.app.core.Service
             mHarmonic.Verify(contentBuilders);
             mHarmonic.RegisterPerspective(mPixstockPerspective);
             mHarmonic.StartPerspective("PIXSTOCK"); // 開発中のみ、ここでPerspectiveを開始する
-        }
-
-        public void Verify()
-        {
-            ILoggerFactory loggerFactory = this.Container.GetInstance<ILoggerFactory>();
-            this.mLogger = loggerFactory.CreateLogger(this.GetType().FullName);
         }
     }
 

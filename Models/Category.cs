@@ -1,10 +1,10 @@
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
+using Pixstock.Common.Model;
 
-namespace pixstock.apl.app.Models
-{
-    public class Category
-    {
+namespace pixstock.apl.app.Models {
+    public class Category : ICategory {
         public long Id { get; set; }
 
         public string Name { get; set; }
@@ -36,5 +36,14 @@ namespace pixstock.apl.app.Models
          * リンクしているサブカテゴリが存在するか示すフラグです。
          */
         public bool HasLinkSubCategoryFlag { get; set; }
+        public int ReadableCount { get; set; }
+        public DateTime? LastReadDate { get; set; }
+        public DateTime? ReadableDate { get; set; }
+        public bool ReadableFlag { get; set; }
+        public string ArtworkThumbnailKey { get; set; }
+        public int StarRating { get; set; }
+        public bool AlbumFlag { get; set; }
+        public long? NextDisplayContentId { get; set; }
+        public string BookmarkValue { get; set; }
     }
 }
