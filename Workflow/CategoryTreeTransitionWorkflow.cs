@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using pixstock.apl.app.core;
 using pixstock.apl.app.core.Cache;
+using pixstock.apl.app.core.Dao;
 using pixstock.apl.app.core.Infra;
 using pixstock.apl.app.core.IpcApi.Response;
 using pixstock.apl.app.json.ServerMessage;
@@ -58,7 +59,8 @@ namespace Pixstock.Applus.Foundations.ContentBrowser.Transitions {
             CategoryDetailResponse response;
             if (memCache.TryGetValue ("ResponseCategory", out response)) {
                 memCache.Set ("CategoryList", new CategoryListParam {
-                    CategoryList = response.SubCategory
+                    Category = response.Category,
+                        CategoryList = response.SubCategory
                 });
 
                 memCache.Set ("ContentList", new ContentListParam {
@@ -151,6 +153,33 @@ namespace Pixstock.Applus.Foundations.ContentBrowser.Transitions {
                 }
             } catch (Exception expr) {
                 Console.WriteLine (expr.Message);
+            }
+        }
+
+        async Task OnACT_UpperCategoryList (object param) {
+            this.mLogger.LogDebug (LoggingEvents.Undefine, "[CategoryTreeTransitionWorkflow][OnACT_UpperCategoryList]");
+
+            var intentManager = mContainer.GetInstance<IIntentManager> ();
+            var memCache = mContainer.GetInstance<IMemoryCache> ();
+            var categoryDao = new CategoryDao ();
+            try {
+                CategoryListParam objCategoryList;
+                if (memCache.TryGetValue ("CategoryList", out objCategoryList)) {
+                    var parentCategory = categoryDao.LoadParentCategory (objCategoryList.Category.Id);
+                    if (parentCategory == null) {
+                        throw new ApplicationException ("Not Get");
+                    }
+
+                    var paramJson = JsonConvert.SerializeObject (new GetCategoryParam {
+                        CategoryId = parentCategory.Id,
+                            OffsetSubCategory = 0,
+                            LimitOffsetSubCategory = 10
+                    });
+
+                    intentManager.AddIntent (ServiceType.Server, "GETCATEGORY", paramJson);
+                }
+            } catch (Exception expr) {
+                this.mLogger.LogError (expr, "メッセージの処理に失敗しました");
             }
         }
 

@@ -52,6 +52,26 @@ namespace pixstock.apl.app.core.Dao {
             return new Category ();
         }
 
+        /// <summary>
+        /// 親カテゴリ情報を取得する
+        /// </summary>
+        /// <param name="categoryId"></param>
+        /// <returns></returns>
+        public Category LoadParentCategory (long categoryId) {
+            var request = new RestRequest ("category/{id}/pc", Method.GET);
+            request.AddUrlSegment ("id", categoryId);
+            var response = mClient.Execute<PixstockResponseAapi<List<Category>> > (request);
+            if (!response.IsSuccessful) {
+                Console.WriteLine ("ErrorCode=" + response.StatusCode);
+                Console.WriteLine ("ErrorException=" + response.ErrorException);
+                Console.WriteLine ("ErrorMessage=" + response.ErrorMessage);
+                Console.WriteLine ("ContentError=" + response.Data.Error);
+                return null;
+            }
+
+            return response.Data.Value.FirstOrDefault ();
+        }
+
         private List<Content> LinkGetContentList (long categoryId, long offset, IRestResponse<PixstockResponseAapi<Category>> response) {
             // リンク情報から、コンテント情報を取得する
             var contentList = new List<Content> ();
@@ -97,7 +117,7 @@ namespace pixstock.apl.app.core.Dao {
             var request = new RestRequest ("category/{id}", Method.PUT);
             request.AddUrlSegment ("id", categoryId);
             //var s = JsonConvert.SerializeObject (category);
-            request.AddJsonBody(JsonConvert.SerializeObject (category));
+            request.AddJsonBody (JsonConvert.SerializeObject (category));
 
             var response = mClient.Execute (request);
             if (!response.IsSuccessful) {

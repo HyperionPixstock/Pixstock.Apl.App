@@ -19,7 +19,6 @@ namespace pixstock.apl.app.core.Service {
 
         public void Execute (string intentMessage, object parameter) {
             this.mLogger.LogDebug (LoggingEvents.Undefine, "[ServerMessageService][Execute] intentMessage={} parameter={}", intentMessage, parameter);
-            Console.WriteLine("[ServerMessageService][Execute]");
 
             try {
                 var memCache = Container.GetInstance<IMemoryCache> ();
@@ -38,6 +37,7 @@ namespace pixstock.apl.app.core.Service {
 
                     memCache.Set ("ResponseCategory", response);
 
+                    this.mLogger.LogDebug (LoggingEvents.Undefine, "[ServerMessageService][Execute] Register RESPONSE_GETCATEGORY");
                     intentManager.AddIntent (ServiceType.Workflow, "RESPONSE_GETCATEGORY", null);
                 } else if (intentMessage == "GETCATEGORYCONTENT") {
                     var categoryId = long.Parse (parameter.ToString ());
@@ -77,10 +77,10 @@ namespace pixstock.apl.app.core.Service {
                     var dao_category = new CategoryDao ();
                     dao_category.Update (param.CategoryId, param.Category);
                 } else {
-                    Console.WriteLine ("Unknown MessageName " + intentMessage);
+                    throw new ApplicationException("Unknown MessageName " + intentMessage);
                 }
             } catch (Exception expr) {
-                Console.WriteLine (expr.Message);
+                this.mLogger.LogDebug (LoggingEvents.Undefine, expr, "[ServerMessageService][Execute] ", expr.Message);
             }
         }
 

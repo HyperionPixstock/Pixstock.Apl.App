@@ -7,6 +7,8 @@ namespace pixstock.apl.app.core.Cache
     /// </summary>
     public class CategoryListParam
     {
+        public Category Category;
+
         public Category[] CategoryList;
     }
 }

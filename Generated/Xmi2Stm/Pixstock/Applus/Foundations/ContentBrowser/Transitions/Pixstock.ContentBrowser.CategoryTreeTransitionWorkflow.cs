@@ -73,6 +73,9 @@ In(States.ThumbnailListPageBase)
 In(States.ThumbnailListPageBase)
 .On(Events.ACT_ContinueCategoryList)
 .Execute<object>(ACT_ContinueCategoryList);
+In(States.ThumbnailListPageBase)
+.On(Events.ACT_UpperCategoryList)
+.Execute<object>(ACT_UpperCategoryList);
 In(States.PreviewPage)
 .ExecuteOnEntry(__FTC_Event_PreviewPage_Entry);
 In(States.PreviewPage)
@@ -128,6 +131,11 @@ public virtual async Task ACT_ContinueCategoryList(object param) {
 	Events.ACT_ContinueCategoryList.FireInvokeWorkflowEvent(new WorkflowMessageEventArgs(param));
 	await OnACT_ContinueCategoryList(param);
 	Events.ACT_ContinueCategoryList.FireCallbackWorkflowEvent(new WorkflowMessageEventArgs(param));
+}
+public virtual async Task ACT_UpperCategoryList(object param) {
+	Events.ACT_UpperCategoryList.FireInvokeWorkflowEvent(new WorkflowMessageEventArgs(param));
+	await OnACT_UpperCategoryList(param);
+	Events.ACT_UpperCategoryList.FireCallbackWorkflowEvent(new WorkflowMessageEventArgs(param));
 }
 public virtual async Task __FTC_Event_PreviewPage_Entry() {
 ICollection<int> ribbonMenuEventId = new List<int>{  };
